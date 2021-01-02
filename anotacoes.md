@@ -18,3 +18,27 @@ const App = (props) => (
 
 export default App;
 ```
+
+---
+
+PERFOMANCE
+componente filho
+
+```javascript
+ componentWillUpdate() {
+    console.log("[ordemPedido]");
+  }
+```
+
+componente PAI
+
+```javascript
+class Modal extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.show !== this.props.show;
+  }
+  componentWillUpdate() {
+    console.log("modal atualizou");
+  }
+
+```
