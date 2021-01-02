@@ -5,5 +5,7 @@ Ao finalizar, um modal surge com o preço e os itens escolhidos.
 Todas as alteraões no hamburguer são feitas e exibidas em tempo real. 
 
 ##### Para inicializar.
+``````
 npm init
 npm start
+``````
