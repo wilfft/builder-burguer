@@ -4,19 +4,25 @@ import Aux from "../../hoc/Auxiliary";
 import "./modal.css";
 class Modal extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.show !== this.props.show;
+    console.log("[MODAL] shouldComponentUpdate");
+    //  console.log("this:", this.props.children);
+
+    // console.log("next children:", nextProps.children);
+    return (
+      nextProps.show !== this.props.show ||
+      nextProps.children !== this.props.children
+    );
   }
+
   componentWillUpdate() {
-    console.log("modal atualizou");
+    console.log("[MODAL] componentWillUpdate ");
+    return;
   }
   //SO vou retornar a atualizaçao do componente, se houver props show diferente do atual
   render() {
     return (
       <Aux>
-        <Backdrop
-          show={this.props.show}
-          fechaBackdrop={this.props.cancelaCompra}
-        />
+        <Backdrop show={this.props.show} clicked={this.props.cancelaCompra} />
         <div
           className="modal"
           style={{

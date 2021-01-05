@@ -1,5 +1,4 @@
 import "./controladorBotao.css";
-
 const controladorBotao = (props) => {
   return (
     <div className="botao-container">

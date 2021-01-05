@@ -1,9 +1,10 @@
 import Auxiliary from "../../hoc/Auxiliary";
 import BotaoModal from "../../ui/BotaoModal/BotaoModal";
 import React from "react";
+
 class OrdemPedido extends React.Component {
   componentWillUpdate() {
-    console.log("[ordemPedido]");
+    console.log("[ordemPedido] componentWillUpdate");
   }
   render() {
     const itemPedido = Object.keys(this.props.ingredientes);
@@ -37,7 +38,7 @@ class OrdemPedido extends React.Component {
         <BotaoModal botaoTipo="sucesso" clique={this.props.ordemExecutada}>
           CONTINUAR
         </BotaoModal>
-        <BotaoModal botaoTipo="falha" clique={this.props.ordemCancelada}>
+        <BotaoModal botaoTipo="falha" clique={this.props.fechaBackdrop}>
           VOLTAR
         </BotaoModal>
       </Auxiliary>

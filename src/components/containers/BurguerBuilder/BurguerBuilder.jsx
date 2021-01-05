@@ -4,6 +4,11 @@ import Aux from "../../hoc/Auxiliary";
 import Controlador from "../../Burguer/controladores/controlador";
 import Modal from "../../ui/modal/Modal";
 import OrdemPedido from "../../Burguer/OrdemPedido/OrdemPedido";
+import axios from "../../../axiosInstance";
+import Spinner from "../../ui/modal/spinner/spinner";
+
+import thisErrorHandler from "../../hoc/thisErrorHandler";
+
 const INGREDIENTE_VALORES = {
   bacon: 2.5,
   salada: 2,
@@ -17,10 +22,11 @@ class BurguerBuilder extends React.Component {
     this.state = { teste: "" };
   } */
   state = {
-    ingredientes: { carne: 0, queijo: 0, salada: 0, bacon: 0 },
+    ingredientes: null,
     valorTotal: 5.0,
     finalizavel: false,
     comprando: false,
+    loading: false,
   };
 
   comprandoHandler = () => {
@@ -63,9 +69,36 @@ class BurguerBuilder extends React.Component {
     this.setState({ ingredientes: novaLista, valorTotal: novoValor });
   };
   ordemExecutada = () => {
-    alert("Obrigado pela preferencia");
+    this.setState({ loading: true });
+    const order = {
+      ingredientes: this.state.ingredientes,
+      valorTotal: this.state.valorTotal,
+      customer: {
+        nome: "william",
+        cpf: "410.00.00.20",
+        endereco: {
+          rua: "jose augusto",
+          bairro: "jd aeroporto",
+        },
+      },
+    };
+    axios
+      .post("orders.json", order)
+      .then(() => this.setState({ loading: false, comprando: false }))
+      .catch(
+        (err) => console.log(err),
+        this.setState({ loading: false, comprando: false })
+      );
   };
 
+  componentDidMount() {
+    console.log("[BURGUER BUILDER] montei");
+    axios
+      .get(
+        "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json"
+      )
+      .then((res) => this.setState({ ingredientes: res.data }));
+  }
   render() {
     // FORMA Do MAX RESOLVER
     const disabledInfo = { ...this.state.ingredientes };
@@ -74,35 +107,49 @@ class BurguerBuilder extends React.Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     } //return true ou false para cada item
     /*------------------*/
+    let ordemPedido = (
+      <OrdemPedido
+        ingredientes={this.state.ingredientes}
+        ordemExecutada={this.ordemExecutada}
+        fechaBackdrop={this.cancelaCompra}
+        valorTotal={this.state.valorTotal.toFixed(2).replace(".", ",")}
+      />
+    );
+    if (this.state.loading) {
+      ordemPedido = <Spinner />;
+    }
+    let burguer = <Burguer ingredientes={this.state.ingredientes} />;
+    let controlador = (
+      <Controlador
+        mais={this.maisIngredienteHandler}
+        menos={this.menosIngredienteHandler}
+        ingredientes={this.state.ingredientes}
+        valorTotal={valorDaOrdem}
+        disabled={disabledInfo}
+        finalizavel={!this.state.finalizavel}
+        botaoComprar={this.comprandoHandler}
+      />
+    );
 
     return (
       <Aux>
-        <Modal show={this.state.comprando} cancelaCompra={this.cancelaCompra}>
-          <OrdemPedido
-            ingredientes={this.state.ingredientes}
-            ordemExecutada={this.ordemExecutada}
-            fechaBackdrop={this.cancelaCompra}
-            valorTotal={this.state.valorTotal.toFixed(2).replace(".", ",")}
-          />
-        </Modal>
-
-        <Burguer ingredientes={this.state.ingredientes} />
-
-        <Controlador
-          mais={this.maisIngredienteHandler}
-          menos={this.menosIngredienteHandler}
-          ingredientes={this.state.ingredientes}
-          valorTotal={valorDaOrdem}
-          disabled={disabledInfo}
-          finalizavel={!this.state.finalizavel}
-          botaoComprar={this.comprandoHandler}
-        />
+        {this.state.ingredientes ? (
+          <div>
+            <Modal
+              show={this.state.comprando}
+              cancelaCompra={this.cancelaCompra}
+            >
+              {ordemPedido}
+            </Modal>
+            {burguer} {controlador}{" "}
+          </div>
+        ) : null}
       </Aux>
     );
   }
 }
 
-export default BurguerBuilder;
+export default thisErrorHandler(BurguerBuilder, axios);
 
 /*  const lista = Object.keys(this.state.ingredientes)
       .map((e) => {

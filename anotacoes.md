@@ -42,3 +42,12 @@ class Modal extends React.Component {
   }
 
 ```
+
+Melhorando a perfomance do Modal apos adicionar o spinner.
+
+```javascript
+return (
+  nextProps.show !== this.props.show ||
+  nextProps.children !== this.props.children
+);
+```
