@@ -3,7 +3,7 @@ import BotaoModal from "../../ui/BotaoModal/BotaoModal";
 import React from "react";
 
 class OrdemPedido extends React.Component {
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     console.log("[ordemPedido] componentWillUpdate");
   }
   render() {

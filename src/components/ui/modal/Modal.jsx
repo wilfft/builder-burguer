@@ -14,7 +14,7 @@ class Modal extends React.Component {
     );
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     console.log("[MODAL] componentWillUpdate ");
     return;
   }

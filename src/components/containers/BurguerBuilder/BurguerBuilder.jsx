@@ -27,6 +27,7 @@ class BurguerBuilder extends React.Component {
     finalizavel: false,
     comprando: false,
     loading: false,
+    error: null,
   };
 
   comprandoHandler = () => {
@@ -95,9 +96,10 @@ class BurguerBuilder extends React.Component {
     console.log("[BURGUER BUILDER] montei");
     axios
       .get(
-        "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json"
+        "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json "
       )
-      .then((res) => this.setState({ ingredientes: res.data }));
+      .then((res) => this.setState({ ingredientes: res.data }))
+      .catch((err) => this.setState({ error: err }));
   }
   render() {
     // FORMA Do MAX RESOLVER
@@ -107,17 +109,19 @@ class BurguerBuilder extends React.Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     } //return true ou false para cada item
     /*------------------*/
+
     let ordemPedido = (
       <OrdemPedido
         ingredientes={this.state.ingredientes}
         ordemExecutada={this.ordemExecutada}
         fechaBackdrop={this.cancelaCompra}
-        valorTotal={this.state.valorTotal.toFixed(2).replace(".", ",")}
+        valorTotal={valorDaOrdem}
       />
     );
     if (this.state.loading) {
       ordemPedido = <Spinner />;
     }
+
     let burguer = <Burguer ingredientes={this.state.ingredientes} />;
     let controlador = (
       <Controlador
@@ -133,17 +137,25 @@ class BurguerBuilder extends React.Component {
 
     return (
       <Aux>
-        {this.state.ingredientes ? (
-          <div>
-            <Modal
-              show={this.state.comprando}
-              cancelaCompra={this.cancelaCompra}
-            >
-              {ordemPedido}
-            </Modal>
-            {burguer} {controlador}{" "}
-          </div>
-        ) : null}
+        {this.state.error ? (
+          <p style={{ textAlign: "center" }}> ingredients dont be loaded </p>
+        ) : (
+          <>
+            {this.state.ingredientes ? (
+              <div>
+                <Modal
+                  show={this.state.comprando}
+                  cancelaCompra={this.cancelaCompra}
+                >
+                  {ordemPedido}
+                </Modal>
+                {burguer} {controlador}
+              </div>
+            ) : (
+              <Spinner />
+            )}
+          </>
+        )}
       </Aux>
     );
   }
