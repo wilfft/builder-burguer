@@ -14,7 +14,7 @@ const barraLateral = (props) => {
 
   return (
     <Aux>
-      <BackDrop show={props.show} fechaBackdrop={props.fechaBackdrop} />
+      <BackDrop show={props.show} clicked={props.fechaBackdrop} />
       <div className={condicaoBarra.join(" ")}>
         <LogoMobile style={{ height: "30px", marginBottom: "32px" }} />
         <nav>
