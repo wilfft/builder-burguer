@@ -3,7 +3,7 @@ import ItemNavegacao from "./ItemNavegacao/itemNavegacao";
 import "./itensNavegacao.css";
 const itensNavegacao = (props) => (
   <ul className="itens">
-    <ItemNavegacao link="/" exact="exact">
+    <ItemNavegacao link="/" exact>
       Menu
     </ItemNavegacao>
     <ItemNavegacao link="/orders">Pedidos</ItemNavegacao>
