@@ -2,6 +2,7 @@ import React from "react";
 import BotaoModal from "../../../ui/BotaoModal/BotaoModal";
 import "./Contato.css";
 import axios from "../../../../axiosInstance";
+import Spinner from "../../../ui/modal/spinner/spinner";
 
 class Contato extends React.Component {
   state = {
@@ -15,7 +16,6 @@ class Contato extends React.Component {
   };
 
   orderHandler = (event) => {
-    console.log(this.props);
     event.preventDefault();
     this.setState({ loading: true });
     const order = {
@@ -32,36 +32,36 @@ class Contato extends React.Component {
     };
     axios
       .post("orders.json", order)
-      .then(() => this.setState({ loading: false, comprando: false }))
-      .then((e) => console.log("add", order))
-      .catch(
-        (err) => console.log(err),
-        this.setState({ loading: false, comprando: false })
-      );
+      .then(() => {
+        this.setState({ loading: false });
+        this.props.history.push("/");
+      })
+      .catch((err) => console.log(err), this.setState({ loading: false }));
   };
   render() {
+    let form = (
+      <form>
+        <input className="inputs" type="text" name="nome" placeholder="Nome" />
+        <input
+          className="inputs"
+          type="text"
+          name="email"
+          placeholder="Email"
+        />
+        <input className="inputs" type="text" name="rua" placeholder="Rua" />
+        <input className="inputs" type="text" name="cep" placeholder="CEP" />
+        <BotaoModal botaoTipo="sucesso" clique={this.orderHandler}>
+          FINALIZAR
+        </BotaoModal>
+      </form>
+    );
+    if (this.state.loading) {
+      form = <Spinner />;
+    }
     return (
       <div className="contato">
         <h4>Preencha seus dados</h4>
-        <form>
-          <input
-            className="inputs"
-            type="text"
-            name="nome"
-            placeholder="Nome"
-          />
-          <input
-            className="inputs"
-            type="text"
-            name="email"
-            placeholder="Email"
-          />
-          <input className="inputs" type="text" name="rua" placeholder="Rua" />
-          <input className="inputs" type="text" name="cep" placeholder="CEP" />
-          <BotaoModal botaoTipo="sucesso" clique={this.orderHandler}>
-            FINALIZAR
-          </BotaoModal>
-        </form>
+        {form}
       </div>
     );
   }

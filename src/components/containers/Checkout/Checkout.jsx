@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
-import CheckoutSummary from "../../Order/CheckoutSummary";
+import CheckoutSummary from "../../Order/CheckoutSummary/CheckoutSummary";
 import Contato from "./Contato/Contato";
 
 class Checkout extends React.Component {
@@ -38,10 +38,11 @@ class Checkout extends React.Component {
         />
         <Route
           path={this.props.match.path + "/contato"}
-          render={() => (
+          render={(props) => (
             <Contato
               ingredientes={this.state.ingredientes}
               valorTotal={this.state.valorTotal}
+              {...props}
             />
           )}
         />

@@ -89,3 +89,20 @@ passando propriedadse atraves de router
   render={() => <Contato ingredientes={this.state.ingredientes} />}
 />
 ```
+
+ATENÇAO, Dessa foram eu nao consigo usar o history.push desntro do contato pois foi passado manualmente
+SOLUÇAO 1: wrap com withroute;
+SOLUÇAO 2: passar o props atual com junto da funçao
+
+```javascript
+<Route
+  path={this.props.match.path + "/contato"}
+  render={(props) => (
+    <Contato ingredientes={this.state.ingredientes} {...props} />
+  )}
+/>
+```
+
+```
+
+```

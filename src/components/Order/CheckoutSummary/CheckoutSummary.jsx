@@ -1,5 +1,5 @@
-import Burguer from "../Burguer/Burguer";
-import BotaoModal from "../ui/BotaoModal/BotaoModal";
+import Burguer from "../../Burguer/Burguer";
+import BotaoModal from "../../ui/BotaoModal/BotaoModal";
 import "./CheckoutSummary.css";
 const checkoutSummary = (props) => {
   return (
