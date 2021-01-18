@@ -54,7 +54,7 @@ return (
 
 O COMPONENT DID MOUND NAO MOSTRA O ERRO AO TIRAR O JSON DA CONEXAO POIS O DID MOUNT OCORRE SO depos de chamar todos os childrens. A SOLUÇAP COmponent WILL MOUNT
 
-`````javascript
+```javascript
 const thisErrorHandler = (WrappedComponent, axios) => {
   //  2)  SEGUNDO ARGUMENTO, estou chamando o AXIOS
   //  3) mas pra usar o axios, previso transformar o RETORNO funcional em RETORNO DE CLASSE para usar o COMPONENTEDIDMOUNT
@@ -78,5 +78,14 @@ const thisErrorHandler = (WrappedComponent, axios) => {
           this.setState({ errorStatus: error });
         }
       );
-    }````
-`````
+    }
+```
+
+passando propriedadse atraves de router
+
+```javascript
+<Route
+  path={this.props.match.path + "/contato"}
+  render={() => <Contato ingredientes={this.state.ingredientes} />}
+/>
+```

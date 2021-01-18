@@ -1,7 +1,11 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import IngredientesBurguer from "./ingredientesBurguer/ingredientesBurguer.jsx";
 import "./burguer.css";
+
 const burguer = (props) => {
+  console.log("[BURGUER] props", props);
+
   let listaIngredientes = Object.keys(props.ingredientes)
     .map((value) => {
       return [...Array(props.ingredientes[value])].map((a, qtdade) => {
@@ -23,4 +27,4 @@ const burguer = (props) => {
   );
 };
 
-export default burguer;
+export default withRouter(burguer);

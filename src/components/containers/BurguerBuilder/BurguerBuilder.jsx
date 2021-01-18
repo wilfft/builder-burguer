@@ -70,30 +70,26 @@ class BurguerBuilder extends React.Component {
     this.setState({ ingredientes: novaLista, valorTotal: novoValor });
   };
   ordemExecutada = () => {
-    this.setState({ loading: true });
-    const order = {
-      ingredientes: this.state.ingredientes,
-      valorTotal: this.state.valorTotal,
-      customer: {
-        nome: "william",
-        cpf: "410.00.00.20",
-        endereco: {
-          rua: "jose augusto",
-          bairro: "jd aeroporto",
-        },
-      },
-    };
-    axios
-      .post("orders.json", order)
-      .then(() => this.setState({ loading: false, comprando: false }))
-      .catch(
-        (err) => console.log(err),
-        this.setState({ loading: false, comprando: false })
+    const query = [];
+    for (let i in this.state.ingredientes) {
+      query.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredientes[i])
       );
-  };
+      query.push("valorTotal=" + this.state.valorTotal);
+    }
+    const queryString = query.join("&");
 
+    console.log(queryString);
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
+  };
   componentDidMount() {
-    console.log("[BURGUER BUILDER] montei");
+    console.log("[BURGUER BUILDER] montei", this.props);
+
     axios
       .get(
         "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json "
@@ -170,3 +166,29 @@ export default thisErrorHandler(BurguerBuilder, axios);
       .reduce((prev, total) => {
         return (total = total.concat(prev));
       }, []); */
+
+/*
+      ordemExecutada = () => {
+
+    
+         this.setState({ loading: true });
+        const order = {
+          ingredientes: this.state.ingredientes,
+          valorTotal: this.state.valorTotal,
+          customer: {
+            nome: "william",
+            cpf: "410.00.00.20",
+            endereco: {
+              rua: "jose augusto",
+              bairro: "jd aeroporto",
+            },
+          },
+        };
+        axios
+          .post("orders.json", order)
+          .then(() => this.setState({ loading: false, comprando: false }))
+          .catch(
+            (err) => console.log(err),
+            this.setState({ loading: false, comprando: false })
+          );
+      };*/

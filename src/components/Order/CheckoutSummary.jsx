@@ -7,8 +7,12 @@ const checkoutSummary = (props) => {
       <h2>Esperamos que você goste muito ;)</h2>
       <div style={{ width: "100%", heigth: "300px", margin: "auto" }}></div>
       <Burguer ingredientes={props.ingredientes} />
-      <BotaoModal botaoTipo="sucesso">FINALIZA</BotaoModal>
-      <BotaoModal botaoTipo="falha">CANCELA</BotaoModal>
+      <BotaoModal botaoTipo="falha" clique={props.clicaCancelar}>
+        CANCELA
+      </BotaoModal>{" "}
+      <BotaoModal clique={props.clicaFinalizar} botaoTipo="sucesso">
+        FINALIZA
+      </BotaoModal>
     </div>
   );
 };

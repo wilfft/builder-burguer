@@ -35,11 +35,11 @@ class OrdemPedido extends React.Component {
           </strong>
         </p>
         <p> Deseja finalizar? </p>
-        <BotaoModal botaoTipo="sucesso" clique={this.props.ordemExecutada}>
-          CONTINUAR
-        </BotaoModal>
         <BotaoModal botaoTipo="falha" clique={this.props.fechaBackdrop}>
           VOLTAR
+        </BotaoModal>
+        <BotaoModal botaoTipo="sucesso" clique={this.props.ordemExecutada}>
+          CONTINUAR
         </BotaoModal>
       </Auxiliary>
     );
