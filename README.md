@@ -12,3 +12,7 @@ Feito em react e conectado ao firebase.
 npm install
 npm start
 ```
+
+##### heroku live app:
+
+##### https://burguer-builder-react-firebase.herokuapp.com/
