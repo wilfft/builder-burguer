@@ -15,7 +15,7 @@
 
 .item a:hover,
 .item a:active,
-.item a.ativo {
+.item a.active {
   color: #40a4c8;
 }
 
@@ -37,7 +37,7 @@
 
   .item a:hover,
   .item a:active,
-  .item a.ativo {
+  .item a.active {
     background-color: #8f5c2c;
     border-bottom: 4px solid #40a4c8;
     color: white;

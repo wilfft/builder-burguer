@@ -103,6 +103,11 @@ SOLUÇAO 2: passar o props atual com junto da funçao
 />
 ```
 
+ <NavLink exact to={props.link} activeClassName="ativado">
+      {props.children}
+    </NavLink>  POSSO DEFINIR UMA NOVA CLASSE PARA O ESTADO active
+```
+
 ```
 
 ```
