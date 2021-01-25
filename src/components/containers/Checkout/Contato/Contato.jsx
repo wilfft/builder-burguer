@@ -2,16 +2,29 @@ import React from "react";
 import BotaoModal from "../../../ui/BotaoModal/BotaoModal";
 import "./Contato.css";
 import axios from "../../../../axiosInstance";
-import Spinner from "../../../ui/modal/spinner/spinner";
+import Spinner from "../../../ui/modal/spinner/spinner"; 
+import Input from '../../../ui/input/input'
+
 
 class Contato extends React.Component {
   state = {
-    nome: "",
-    email: "",
-    endereco: {
-      rua: "",
-      cep: "",
-    },
+    orderForm:{
+      nome:{
+      elementType='input',
+      elementconfig:{
+        type='text',
+        placeholder='nome',
+      },
+      value:''
+      },
+     endereco:{
+       elementType='input',
+       elementConfig:{
+         type='text',
+         placeholder='email'
+       }
+     }}
+      ,
     loading: false,
   };
 
@@ -41,6 +54,8 @@ class Contato extends React.Component {
   render() {
     let form = (
       <form>
+        <Input/> 
+
         <input className="inputs" type="text" name="nome" placeholder="Nome" />
         <input
           className="inputs"
