@@ -81,7 +81,6 @@ class BurguerBuilder extends React.Component {
     }
     const queryString = query.join("&");
 
-    console.log(queryString);
     this.props.history.push({
       pathname: "/checkout",
       search: "?" + queryString,

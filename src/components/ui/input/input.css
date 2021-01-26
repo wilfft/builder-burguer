@@ -1,0 +1,30 @@
+.input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.formlabel {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.inputElement {
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+  width: 100%;
+}
+.inputElement:focus {
+  outline: none;
+  background-color: #ccc;
+}
+
+.invalid {
+  background-color: rgb(245, 177, 169);
+  border: 1px solid red;
+}
