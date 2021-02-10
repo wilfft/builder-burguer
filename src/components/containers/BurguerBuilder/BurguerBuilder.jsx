@@ -11,19 +11,7 @@ import Spinner from "../../ui/modal/spinner/spinner";
 import * as actionTypes from "../../store/actions";
 import thisErrorHandler from "../../hoc/thisErrorHandler";
 
-/*const INGREDIENTE_VALORES = {
-  bacon: 2.5,
-  salada: 2,
-  carne: 3,
-  queijo: 2,
-};*/
-
 class BurguerBuilder extends React.Component {
-  /*construtor(props) {
-    super(props);
-    this.state = { teste: "" };
-  } */
-
   state = {
     purchasing: false,
     loading: false,
@@ -31,15 +19,6 @@ class BurguerBuilder extends React.Component {
     finalizavel: false,
     comprando: false,
   };
-  /*
-  state = {
-    //  ingredients: 0,
-    valorTotal: 5.0,
-    finalizavel: false,
-    comprando: false,
-    loading: false,
-    error: null,
-  };*/
 
   comprandoHandler = () => {
     this.setState({ comprando: true });
@@ -59,51 +38,13 @@ class BurguerBuilder extends React.Component {
     return sum > 0;
   };
 
-  /* maisIngredienteHandler = (tipo) => {
-    const oldIngrediente = this.state.ingredientes[tipo];
-    const novoingrediente = oldIngrediente + 1;
-    const novaLista = { ...this.state.ingredientes };
-    novaLista[tipo] = novoingrediente;
-    const oldValor = INGREDIENTE_VALORES[tipo];
-    const novoValor = this.state.valorTotal + oldValor;
-    this.atualizaIngredientes(novaLista);
-    this.setState({ ingredientes: novaLista, valorTotal: novoValor });
-  };
-  menosIngredienteHandler = (tipo) => {
-    const oldIngrediente = this.state.ingredientes[tipo];
-    if (this.state.ingredientes[tipo] === 0) return;
-    const novoingrediente = oldIngrediente - 1;
-    const novaLista = { ...this.state.ingredientes };
-    novaLista[tipo] = novoingrediente;
-    const oldValor = INGREDIENTE_VALORES[tipo];
-    const novoValor = this.state.valorTotal - oldValor;
-    this.atualizaIngredientes(novaLista);
-    this.setState({ ingredientes: novaLista, valorTotal: novoValor });
-  };*/
   ordemExecutada = () => {
-    const query = [];
-    for (let i in this.props.ing) {
-      query.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(this.props.ing[i])
-      );
-      query.push("valorTotal=" + this.props.price);
-    }
-    const queryString = query.join("&");
-
     this.props.history.push({
       pathname: "/checkout",
-      search: "?" + queryString,
     });
   };
   componentDidMount() {
     console.log("[BURGUER BUILDER] montei", this.props);
-
-    /*axios
-      .get(
-        "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json "
-      )
-      .then((res) => this.setState({ ingredientes: res.data }))
-      .catch((err) => this.setState({ error: err }));*/
   }
   render() {
     // FORMA Do MAX RESOLVER
@@ -130,7 +71,6 @@ class BurguerBuilder extends React.Component {
     let controlador = (
       <Controlador
         mais={this.props.onIngredientAdded}
-        //mais={this.maisIngredienteHandler}
         menos={this.props.onIngredientRemoved}
         ingredientes={this.props.ings}
         valorTotal={valorDaOrdem}
@@ -191,37 +131,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(thisErrorHandler(BurguerBuilder, axios));
-
-/*  const lista = Object.keys(this.state.ingredientes)
-      .map((e) => {
-        return [...Array(this.state.ingredientes[e])];
-      })
-      .reduce((prev, total) => {
-        return (total = total.concat(prev));
-      }, []); */
-
-/*
-      ordemExecutada = () => {
-
-    
-         this.setState({ loading: true });
-        const order = {
-          ingredientes: this.state.ingredientes,
-          valorTotal: this.state.valorTotal,
-          customer: {
-            nome: "william",
-            cpf: "410.00.00.20",
-            endereco: {
-              rua: "jose augusto",
-              bairro: "jd aeroporto",
-            },
-          },
-        };
-        axios
-          .post("orders.json", order)
-          .then(() => this.setState({ loading: false, comprando: false }))
-          .catch(
-            (err) => console.log(err),
-            this.setState({ loading: false, comprando: false })
-          );
-      };*/
