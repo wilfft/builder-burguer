@@ -2,13 +2,9 @@ import React from "react";
 import { Route } from "react-router";
 import CheckoutSummary from "../../Order/CheckoutSummary/CheckoutSummary";
 import Contato from "./Contato/Contato";
+import { connect } from "react-redux";
 
 class Checkout extends React.Component {
-  state = {
-    ingredientes: null,
-    valorTotal: 0,
-  };
-
   //Pra colocar o ingredinete como null, preciso definir o willmount ao inves de did, pois o contact pede o conteudo dos ingredientes
   clicaFinalizar = () => {
     this.props.history.push(this.props.match.url + "/contato");
@@ -16,32 +12,21 @@ class Checkout extends React.Component {
   clicaCancelar = () => {
     this.props.history.goBack();
   };
-  componentWillMount() {
-    const query = new URLSearchParams(this.props.location.search);
-    const ingredientes = {};
-    let valorTotal = 0;
-    for (let param of query.entries()) {
-      if (param[0] === "valorTotal") {
-        valorTotal = param[1];
-        console.log(valorTotal);
-      } else ingredientes[param[0]] = +param[1];
-    }
-    this.setState({ ingredientes: ingredientes, valorTotal: valorTotal });
-  }
+
   render() {
     return (
       <div>
         <CheckoutSummary
           clicaCancelar={this.clicaCancelar}
           clicaFinalizar={this.clicaFinalizar}
-          ingredientes={this.state.ingredientes}
+          ingredientes={this.props.ings}
         />
         <Route
           path={this.props.match.path + "/contato"}
           render={(props) => (
             <Contato
-              ingredientes={this.state.ingredientes}
-              valorTotal={this.state.valorTotal}
+              ingredientes={this.props.ings}
+              valorTotal={this.props.price}
               {...props}
             />
           )}
@@ -51,4 +36,10 @@ class Checkout extends React.Component {
   }
 }
 
-export default Checkout;
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+export default connect(mapStateToProps)(Checkout);

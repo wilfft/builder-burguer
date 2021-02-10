@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
         ingredients: {
           ...state.ingredients,
           [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-          //no ES6 OS COLCHOTES FAZER OVERWIRTE ALGUM CONTEUDO< E NAO CRIAR
+          //no ES6 OS COLCHOTES FAZER OVERWIRTE ALGUM CONTEUDO, E NAO CRIAR
         },
         totalPrice:
           state.totalPrice + INGREDIENTE_VALORES[action.ingredientName],
@@ -37,7 +37,7 @@ const reducer = (state = initialState, action) => {
         ingredients: {
           ...state.ingredients,
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
-          //no ES6 OS COLCHOTES FAZER OVERWIRTE ALGUM CONTEUDO< E NAO CRIAR
+          //no ES6 OS COLCHOTES FAZER OVERWIRTE ALGUM CONTEUDO, E NAO CRIAR
         },
         totalPrice:
           state.totalPrice - INGREDIENTE_VALORES[action.ingredientName],
