@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import Burguer from "../../Burguer/Burguer";
 import Aux from "../../hoc/Auxiliary";
 import Controlador from "../../Burguer/controladores/controlador";
@@ -7,6 +8,7 @@ import OrdemPedido from "../../Burguer/OrdemPedido/OrdemPedido";
 import axios from "../../../axiosInstance";
 import Spinner from "../../ui/modal/spinner/spinner";
 
+import * as actionTypes from "../../store/actions";
 import thisErrorHandler from "../../hoc/thisErrorHandler";
 
 const INGREDIENTE_VALORES = {
@@ -21,14 +23,21 @@ class BurguerBuilder extends React.Component {
     super(props);
     this.state = { teste: "" };
   } */
+
   state = {
-    ingredientes: null,
+    purchasing: false,
+    loading: false,
+    error: false,
+  };
+  /*
+  state = {
+    //  ingredients: 0,
     valorTotal: 5.0,
     finalizavel: false,
     comprando: false,
     loading: false,
     error: null,
-  };
+  };*/
 
   comprandoHandler = () => {
     this.setState({ comprando: true });
@@ -71,7 +80,7 @@ class BurguerBuilder extends React.Component {
   };
   ordemExecutada = () => {
     const query = [];
-    for (let i in this.state.ingredientes) {
+    for (let i in this.props.state.ing) {
       query.push(
         encodeURIComponent(i) +
           "=" +
@@ -89,17 +98,17 @@ class BurguerBuilder extends React.Component {
   componentDidMount() {
     console.log("[BURGUER BUILDER] montei", this.props);
 
-    axios
+    /*axios
       .get(
         "https://react-burguer-36dbe-default-rtdb.firebaseio.com/ingredients.json "
       )
       .then((res) => this.setState({ ingredientes: res.data }))
-      .catch((err) => this.setState({ error: err }));
+      .catch((err) => this.setState({ error: err }));*/
   }
   render() {
     // FORMA Do MAX RESOLVER
-    const disabledInfo = { ...this.state.ingredientes };
-    const valorDaOrdem = this.state.valorTotal.toFixed(2).replace(".", ",");
+    const disabledInfo = { ...this.props.ings };
+    const valorDaOrdem = this.props.price.toFixed(2).replace(".", ",");
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     } //return true ou false para cada item
@@ -107,7 +116,7 @@ class BurguerBuilder extends React.Component {
 
     let ordemPedido = (
       <OrdemPedido
-        ingredientes={this.state.ingredientes}
+        ingredientes={this.props.ings}
         ordemExecutada={this.ordemExecutada}
         fechaBackdrop={this.cancelaCompra}
         valorTotal={valorDaOrdem}
@@ -117,12 +126,13 @@ class BurguerBuilder extends React.Component {
       ordemPedido = <Spinner />;
     }
 
-    let burguer = <Burguer ingredientes={this.state.ingredientes} />;
+    let burguer = <Burguer ingredientes={this.props.ings} />;
     let controlador = (
       <Controlador
-        mais={this.maisIngredienteHandler}
-        menos={this.menosIngredienteHandler}
-        ingredientes={this.state.ingredientes}
+        mais={this.props.onIngredientAdded}
+        //mais={this.maisIngredienteHandler}
+        menos={this.props.onIngredientRemoved}
+        ingredientes={this.props.ings}
         valorTotal={valorDaOrdem}
         disabled={disabledInfo}
         finalizavel={!this.state.finalizavel}
@@ -133,10 +143,12 @@ class BurguerBuilder extends React.Component {
     return (
       <Aux>
         {this.state.error ? (
-          <p style={{ textAlign: "center" }}> ingredients dont be loaded </p>
+          <p style={{ textAlign: "center" }}>
+            ingredientes não puderam ser carregados
+          </p>
         ) : (
           <>
-            {this.state.ingredientes ? (
+            {this.props.ings ? (
               <div>
                 <Modal
                   show={this.state.comprando}
@@ -156,7 +168,29 @@ class BurguerBuilder extends React.Component {
   }
 }
 
-export default thisErrorHandler(BurguerBuilder, axios);
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onIngredientAdded: (ingName) =>
+      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
+    onIngredientRemoved: (ingName) =>
+      dispatch({
+        type: actionTypes.REMOVE_INGREDIENT,
+        ingredientName: ingName,
+      }),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(thisErrorHandler(BurguerBuilder, axios));
 
 /*  const lista = Object.keys(this.state.ingredientes)
       .map((e) => {
