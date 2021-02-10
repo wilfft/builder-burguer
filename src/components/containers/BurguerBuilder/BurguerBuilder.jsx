@@ -11,12 +11,12 @@ import Spinner from "../../ui/modal/spinner/spinner";
 import * as actionTypes from "../../store/actions";
 import thisErrorHandler from "../../hoc/thisErrorHandler";
 
-const INGREDIENTE_VALORES = {
+/*const INGREDIENTE_VALORES = {
   bacon: 2.5,
   salada: 2,
   carne: 3,
   queijo: 2,
-};
+};*/
 
 class BurguerBuilder extends React.Component {
   /*construtor(props) {
@@ -28,6 +28,8 @@ class BurguerBuilder extends React.Component {
     purchasing: false,
     loading: false,
     error: false,
+    finalizavel: false,
+    comprando: false,
   };
   /*
   state = {
@@ -57,7 +59,7 @@ class BurguerBuilder extends React.Component {
     this.setState({ finalizavel: sum > 0 });
   };
 
-  maisIngredienteHandler = (tipo) => {
+  /* maisIngredienteHandler = (tipo) => {
     const oldIngrediente = this.state.ingredientes[tipo];
     const novoingrediente = oldIngrediente + 1;
     const novaLista = { ...this.state.ingredientes };
@@ -77,16 +79,14 @@ class BurguerBuilder extends React.Component {
     const novoValor = this.state.valorTotal - oldValor;
     this.atualizaIngredientes(novaLista);
     this.setState({ ingredientes: novaLista, valorTotal: novoValor });
-  };
+  };*/
   ordemExecutada = () => {
     const query = [];
-    for (let i in this.props.state.ing) {
+    for (let i in this.props.ing) {
       query.push(
-        encodeURIComponent(i) +
-          "=" +
-          encodeURIComponent(this.state.ingredientes[i])
+        encodeURIComponent(i) + "=" + encodeURIComponent(this.props.ing[i])
       );
-      query.push("valorTotal=" + this.state.valorTotal);
+      query.push("valorTotal=" + this.props.price);
     }
     const queryString = query.join("&");
 
