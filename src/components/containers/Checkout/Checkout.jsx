@@ -23,13 +23,14 @@ class Checkout extends React.Component {
         />
         <Route
           path={this.props.match.path + "/contato"}
-          render={(props) => (
+          component={Contato}
+          /*  render={(props) => (
             <Contato
               ingredientes={this.props.ings}
               valorTotal={this.props.price}
               {...props}
-            />
-          )}
+        />
+        )}*/
         />
       </div>
     );
@@ -39,7 +40,7 @@ class Checkout extends React.Component {
 const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice,
+    //   price: state.totalPrice,
   };
 };
 export default connect(mapStateToProps)(Checkout);
