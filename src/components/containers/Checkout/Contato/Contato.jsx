@@ -4,7 +4,7 @@ import "./Contato.css";
 import axios from "../../../../axiosInstance";
 import Spinner from "../../../ui/modal/spinner/spinner";
 import Input from "../../../ui/input/input";
-
+import { connect } from "react-redux";
 class Contato extends React.Component {
   state = {
     orderForm: {
@@ -112,8 +112,8 @@ class Contato extends React.Component {
       ].value;
     }
     const order = {
-      ingredientes: this.props.ingredientes,
-      valorTotal: this.props.valorTotal, //esse foi calculado no burguer vuilder
+      ingredientes: this.props.omg,
+      valorTotal: this.props.price, //esse foi calculado no burguer vuilder
       orderData: formData,
     };
 
@@ -181,5 +181,10 @@ class Contato extends React.Component {
     );
   }
 }
-
-export default Contato;
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+export default connect(mapStateToProps)(Contato);
