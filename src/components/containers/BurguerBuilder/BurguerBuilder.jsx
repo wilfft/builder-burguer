@@ -56,7 +56,7 @@ class BurguerBuilder extends React.Component {
       .reduce((sum, atual) => {
         return sum + atual;
       }, 0);
-    this.setState({ finalizavel: sum > 0 });
+    return sum > 0;
   };
 
   /* maisIngredienteHandler = (tipo) => {
@@ -135,7 +135,7 @@ class BurguerBuilder extends React.Component {
         ingredientes={this.props.ings}
         valorTotal={valorDaOrdem}
         disabled={disabledInfo}
-        finalizavel={!this.state.finalizavel}
+        finalizavel={!this.atualizaIngredientes(this.props.ings)}
         botaoComprar={this.comprandoHandler}
       />
     );
