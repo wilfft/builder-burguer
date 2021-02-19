@@ -1,4 +1,4 @@
-export {} from "./order";
+export { purchaseBurguerFail, purchaseBurguerSuccess } from "./order";
 
 export {
   addIngredient,

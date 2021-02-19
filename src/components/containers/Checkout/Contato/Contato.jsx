@@ -5,6 +5,9 @@ import axios from "../../../../axiosInstance";
 import Spinner from "../../../ui/modal/spinner/spinner";
 import Input from "../../../ui/input/input";
 import { connect } from "react-redux";
+import thisErrorHandler from "../../../hoc/thisErrorHandler";
+import * as actions from "../../../store/actions/index";
+
 class Contato extends React.Component {
   state = {
     orderForm: {
@@ -104,7 +107,7 @@ class Contato extends React.Component {
 
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
+    //this.setState({ loading: true });
     const formData = {};
     for (let formElementIdentifier in this.state.orderForm) {
       formData[formElementIdentifier] = this.state.orderForm[
@@ -112,19 +115,13 @@ class Contato extends React.Component {
       ].value;
     }
     const order = {
-      ingredientes: this.props.omg,
+      ingredientes: this.props.ings,
       valorTotal: this.props.price, //esse foi calculado no burguer vuilder
       orderData: formData,
     };
-
-    axios
-      .post("orders.json", order)
-      .then(() => {
-        this.setState({ loading: false });
-        this.props.history.push("/");
-      })
-      .catch((err) => console.log(err), this.setState({ loading: false }));
+    this.props.onOrderBurguer(order);
   };
+
   inputChangedHandler = (event, id) => {
     const temporaryOrder = { ...this.state.orderForm };
     const temporaryOrderElement = { ...temporaryOrder[id] };
@@ -181,10 +178,20 @@ class Contato extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     price: state.totalPrice,
   };
 };
-export default connect(mapStateToProps)(Contato);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onOrderBurguer: (orderData) => dispatch(actions.purchaseBurguerSuccess),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(thisErrorHandler(Contato, axios));
