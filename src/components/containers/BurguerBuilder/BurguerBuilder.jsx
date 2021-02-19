@@ -63,9 +63,9 @@ class BurguerBuilder extends React.Component {
         valorTotal={valorDaOrdem}
       />
     );
-    if (this.state.loading) {
+    /*   if (this.state.loading) {
       ordemPedido = <Spinner />;
-    }
+    }*/
 
     let burguer = <Burguer ingredientes={this.props.ings} />;
     let controlador = (
