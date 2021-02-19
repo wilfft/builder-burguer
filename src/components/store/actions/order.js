@@ -1,1 +1,1 @@
-import * as actionsTypes from "./actionsType.js";
+import * as actionsType from "./actionsType.js";

@@ -27,10 +27,10 @@ class BurguerBuilder extends React.Component {
     this.setState({ comprando: false });
   };
 
-  atualizaIngredientes = (ingredientes) => {
-    const sum = Object.keys(ingredientes)
-      .map((e) => {
-        return ingredientes[e];
+  updatePurchaseState = (ingredients) => {
+    const sum = Object.keys(ingredients)
+      .map((igKey) => {
+        return ingredients[igKey];
       })
       .reduce((sum, atual) => {
         return sum + atual;
@@ -45,64 +45,59 @@ class BurguerBuilder extends React.Component {
   };
   componentDidMount() {
     console.log("[BURGUER BUILDER] montei", this.props);
+    this.props.onInitIngredients();
   }
   render() {
     // FORMA Do MAX RESOLVER
     const disabledInfo = { ...this.props.ings };
+
     const valorDaOrdem = this.props.price.toFixed(2).replace(".", ",");
+
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
-    } //return true ou false para cada item
-    /*------------------*/
+    }
 
-    let ordemPedido = (
-      <OrdemPedido
-        ingredientes={this.props.ings}
-        ordemExecutada={this.ordemExecutada}
-        fechaBackdrop={this.cancelaCompra}
-        valorTotal={valorDaOrdem}
-      />
-    );
-    /*   if (this.state.loading) {
-      ordemPedido = <Spinner />;
-    }*/
+    let ordemResumo = null;
 
-    let burguer = <Burguer ingredientes={this.props.ings} />;
-    let controlador = (
-      <Controlador
-        mais={this.props.onIngredientAdded}
-        menos={this.props.onIngredientRemoved}
-        ingredientes={this.props.ings}
-        valorTotal={valorDaOrdem}
-        disabled={disabledInfo}
-        finalizavel={!this.atualizaIngredientes(this.props.ings)}
-        botaoComprar={this.comprandoHandler}
-      />
+    let burguer = this.props.error ? (
+      <p style={{ textAlign: "center" }}>
+        ingredientes não puderam ser carregados
+      </p>
+    ) : (
+      <Spinner />
     );
+
+    if (this.props.ings) {
+      burguer = (
+        <Aux>
+          <Burguer ingredientes={this.props.ings} />;
+          <Controlador
+            mais={this.props.onIngredientAdded}
+            menos={this.props.onIngredientRemoved}
+            ingredientes={this.props.ings}
+            valorTotal={valorDaOrdem}
+            disabled={disabledInfo}
+            finalizavel={!this.updatePurchaseState(this.props.ings)}
+            botaoComprar={this.comprandoHandler}
+          />
+        </Aux>
+      );
+      ordemResumo = (
+        <OrdemPedido
+          ingredientes={this.props.ings}
+          ordemExecutada={this.ordemExecutada}
+          fechaBackdrop={this.cancelaCompra}
+          valorTotal={valorDaOrdem}
+        />
+      );
+    }
 
     return (
       <Aux>
-        {this.state.error ? (
-          <p style={{ textAlign: "center" }}>
-            ingredientes não puderam ser carregados
-          </p>
-        ) : (
-          <>
-            {this.props.ings ? (
-              <div>
-                <Modal
-                  show={this.state.comprando}
-                  cancelaCompra={this.cancelaCompra}
-                >
-                  {ordemPedido}
-                </Modal>
-                {burguer} {controlador}
-              </div>
-            ) : (
-              <Spinner />
-            )}
-          </>
-        )}
+        <Modal show={this.state.comprando} cancelaCompra={this.cancelaCompra}>
+          {ordemResumo}
+        </Modal>
+        {burguer}
       </Aux>
     );
   }
@@ -112,6 +107,7 @@ const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     price: state.totalPrice,
+    error: state.error,
   };
 };
 
@@ -121,6 +117,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(burguerBuilderActions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
       dispatch(burguerBuilderActions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(burguerBuilderActions.initIngredients()),
   };
 };
 

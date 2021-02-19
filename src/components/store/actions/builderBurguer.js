@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../axiosInstance";
 import * as actionsType from "./actionsType";
 
 export const addIngredient = (ingredientName) => {
@@ -10,20 +10,20 @@ export const addIngredient = (ingredientName) => {
 
 export const removeIngredient = (ingredientName) => {
   return {
-    type: actionsTypes.REMOVE_INGREDIENT,
+    type: actionsType.REMOVE_INGREDIENT,
     ingredientName: ingredientName,
   };
 };
 
-export const setIngredients = (ingredients) => {
+export const setIngredients = (ingredientsResponse) => {
   return {
-    type: actionsTypes.SET_INGREDIENTS,
-    ingredients: ingredients,
+    type: actionsType.SET_INGREDIENTS,
+    ingredients: ingredientsResponse,
   };
 };
 export const fetchIngredientsFailed = () => {
   return {
-    type: actionsTypes.FECTH_INGREDIENTS_FAILED,
+    type: actionsType.FETCH_INGREDIENTS_FAILED,
   };
 };
 
