@@ -8,7 +8,7 @@ import OrdemPedido from "../../Burguer/OrdemPedido/OrdemPedido";
 import axios from "../../../axiosInstance";
 import Spinner from "../../ui/modal/spinner/spinner";
 
-import * as actionTypes from "../../store/actions";
+import * as burguerBuilderActions from "../../store/actions/index";
 import thisErrorHandler from "../../hoc/thisErrorHandler";
 
 class BurguerBuilder extends React.Component {
@@ -118,12 +118,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingName) =>
-      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
+      dispatch(burguerBuilderActions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
-      dispatch({
-        type: actionTypes.REMOVE_INGREDIENT,
-        ingredientName: ingName,
-      }),
+      dispatch(burguerBuilderActions.removeIngredient(ingName)),
   };
 };
 
