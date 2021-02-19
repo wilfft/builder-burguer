@@ -5,12 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import burguerBuilderReducer from "./components/store/reducers/burguerBuilder";
+import thunk from "redux-thunk";
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
 const store = createStore(
   burguerBuilderReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
